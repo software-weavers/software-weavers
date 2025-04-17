@@ -1,0 +1,9 @@
+#!/bin/sh
+
+COMMAND=${1-"help"}
+
+if ! docker image inspect sw-builder > /dev/null 2>&1; then
+  docker build -t sw-builder .
+fi
+
+docker run -v $(pwd):/app sw-builder "bin/$COMMAND"

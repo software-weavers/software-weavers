@@ -1,5 +1,8 @@
 #!/bin/sh
 
-for file in $(find ./pages -type f); do
-  bin/compile $file
+for file in $(find pages -type f); do
+    clean_path="${file#pages/}"
+
+    bin/compile $clean_path
+    echo "[Compiled] $clean_path"
 done

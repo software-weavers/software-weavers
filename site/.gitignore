@@ -2,13 +2,12 @@
 /*
 
 # Directories we don't want to ignore
-!bin
-!pages
 !resources
-!templates
 
 # Files we don't want to ignore
 !.gitignore
-!README.md
 !CNAME
+!robots.txt
+!sitemap.xml
+
 !index.html
