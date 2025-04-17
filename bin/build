@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for file in $(find ./pages -type f); do
+  bin/compile $file
+done

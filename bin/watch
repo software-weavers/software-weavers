@@ -1,0 +1,9 @@
+#!/bin/sh
+
+inotifywait -r -m -e close_write pages |
+   while read file_path file_event file_name; do
+        clean_path="${file_path#pages/}"
+
+        bin/compile "$clean_path$file_name"
+        echo "[Compiled] $clean_path$file_name"
+   done

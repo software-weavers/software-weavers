@@ -1,3 +1,14 @@
-*.md
+# Ignore everything in current directory
+/*
+
+# Directories we don't want to ignore
+!bin
+!pages
+!resources
+!templates
+
+# Files we don't want to ignore
+!.gitignore
 !README.md
-start
+!CNAME
+!index.html

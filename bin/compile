@@ -1,0 +1,28 @@
+#!/usr/bin/php
+<?php
+
+if (!isset($argv[1])) {
+    die("Usage: ./bin/compile <page> <template>\n");
+}
+
+$page = $argv[1];
+$template = $argv[2] ?? 'default.phtml';
+
+$dir = dirname($page);
+
+if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
+    die("Failed to create directory $dir\n");
+}
+
+$pagePath = "pages/{$page}";
+$templatePath = "templates/default.phtml";
+
+ob_start();
+include $pagePath;
+$content = ob_get_clean();
+
+ob_start();
+include $templatePath;
+$fullPage = ob_get_clean();
+
+file_put_contents(str_replace('.html', '', $page), $fullPage);
