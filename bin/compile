@@ -5,6 +5,8 @@ if (!isset($argv[1])) {
     die("Usage: ./bin/compile <page>\n");
 }
 
+require_once __DIR__.'/../config.php';
+
 $page = $argv[1];
 $template = 'default.phtml';
 
@@ -13,17 +15,25 @@ $template = 'default.phtml';
     'filename' => $filename,
 ] = pathinfo($page);
 
-$dirPath = "site/$dirname/$filename";
-
-if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true)) {
-    die("Failed to create directory $dirPath\n");
-}
+/**
+ * This allows translating "about" to "a-propos"
+ */
+$filename = i18n($filename);
 
 $pagePath = "pages/{$page}";
 
 ob_start();
 include $pagePath;
 $content = ob_get_clean();
+
+/**
+ * $filename and $template can be overriden during `include $pagePath`
+ */
+$dirPath = "site/$dirname/$filename";
+
+if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true)) {
+    die("Failed to create directory $dirPath\n");
+}
 
 $templatePath = "templates/{$template}";
 
