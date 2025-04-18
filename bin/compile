@@ -8,10 +8,15 @@ if (!isset($argv[1])) {
 $page = $argv[1];
 $template = 'default.phtml';
 
-$dir = 'site/'.dirname($page);
+[
+    'dirname' => $dirname,
+    'filename' => $filename,
+] = pathinfo($page);
 
-if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
-    die("Failed to create directory $dir\n");
+$dirPath = "site/$dirname/$filename";
+
+if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true)) {
+    die("Failed to create directory $dirPath\n");
 }
 
 $pagePath = "pages/{$page}";
@@ -26,10 +31,4 @@ ob_start();
 include $templatePath;
 $fullPage = ob_get_clean();
 
-[
-    'dirname' => $dirname,
-    'filename' => $filename,
-] = pathinfo($page);
-
-$targetPath = "site/$dirname/$filename";
-file_put_contents($targetPath, $fullPage);
+file_put_contents("$dirPath/index.html", $fullPage);
